@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 13:53:41 by lkloters          #+#    #+#             */
-/*   Updated: 2025/07/22 16:47:40 by lkloters         ###   ########.fr       */
+/*   Created: 2025/07/22 15:15:55 by lkloters          #+#    #+#             */
+/*   Updated: 2025/07/22 17:02:01 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+long	safe_atol(char *str)
 {
-	
-	if (argc < 5 || argc > 6)
+	long	result;
+	int		i;
+
+	result = 0;
+	i = 0;
+	if (str[i] == '+')
+		i++;
+	while (str[i])
 	{
-		printf("Error! Invalid number of arguments!\n");
-		return (EXIT_FAILURE);
+		if (result > (LONG_MAX - (str[i] - '0')) / 10)
+			return (-1);
+		result = result * 10 + (str[i] - '0');
+		i++;
 	}
-	philo = malloc(sizeof(t_philo));
-	if (!philo)
-		handle_error();
-	parse_input(argc, argv);
-	create_threads();
-	return (0);
+	if (result > INT_MAX)
+		return (-1);
+	return (result);
 }

@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 13:53:41 by lkloters          #+#    #+#             */
-/*   Updated: 2025/07/22 16:47:40 by lkloters         ###   ########.fr       */
+/*   Created: 2025/07/22 16:51:42 by lkloters          #+#    #+#             */
+/*   Updated: 2025/07/22 17:00:57 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void data_init(t_data *data)
 {
-	
-	if (argc < 5 || argc > 6)
-	{
-		printf("Error! Invalid number of arguments!\n");
-		return (EXIT_FAILURE);
-	}
-	philo = malloc(sizeof(t_philo));
-	if (!philo)
-		handle_error();
-	parse_input(argc, argv);
-	create_threads();
-	return (0);
+	if (!data)
+		return;
+	data->philo_count = 0;
+	data->time_to_die = 0;
+	data->time_to_eat = 0;
+	data->time_to_sleep = 0;
+	data->eating_count = 0;
 }
