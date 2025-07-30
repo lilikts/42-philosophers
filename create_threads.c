@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   create_threads.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 13:53:41 by lkloters          #+#    #+#             */
-/*   Updated: 2025/07/30 13:29:06 by lkloters         ###   ########.fr       */
+/*   Created: 2025/07/30 11:00:19 by lkloters          #+#    #+#             */
+/*   Updated: 2025/07/30 14:20:27 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
-{
-	t_data	*data;
+int create_thread()
 
-	if (argc < 5 || argc > 6)
+void	start_simulation(t_data *data)
+{ 
+	int	i;
+
+	data->start_time = get_time();
+	i = 0;
+	while (i < data->philo_count)
 	{
-		handle_error("Invalid number of arguments!");
-		return (EXIT_FAILURE);
+		if (pthread_create() != 0)
+			handle_error("Failed to create thread!");
+		i++;
 	}
-	data = malloc(sizeof(t_data));
-	if (!data)
-	{
-		handle_error("Failed to initailze data!");
-		return (EXIT_FAILURE);
-	}
-	parse_input(argc, argv, &data);
-	start_simulation(&data);
-	monitor_simulation(&data);
-	cleanup(&data);
-	return (0);
+	// pthread _create for waiter
+	// pthread_join
 }

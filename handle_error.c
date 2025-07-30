@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:05 by lkloters          #+#    #+#             */
-/*   Updated: 2025/07/22 17:04:23 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:38:36 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	handle_error(char *msg)
 {
-	ft_printf("Error! %s\n", msg);
+	printf("Error! %s\n", msg);
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:42:49 by lkloters          #+#    #+#             */
-/*   Updated: 2025/07/22 16:49:36 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:42:29 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,22 @@ bool	valid_arguments(int argc, char **argv)
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
+	i = 1;
 	while (i < argc)
 	{
-		while(argv[i][j])
+		j = 0;
+		while (argv[i][j])
 		{
 			if (argv[i][j] >= '0' && argv[i][j] <= '9')
+				j++;
+			else
 				return (false);
-			j++;
 		}
 		i++;
 	}
 	return (true);
 }
+
 bool	valid_values(t_data *data)
 {
 	if (data->philo_count < 1 || data->philo_count >= 200)
@@ -39,16 +41,5 @@ bool	valid_values(t_data *data)
 		return (false);
 	if (data->eating_count && data->eating_count <= 0)
 		return (false);
-	return (true);
-}
-
-bool	valid_logic(t_data *data)
-{
-	if (data->philo_count == 1)
-		handle_error();
-	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
-		handle_error();
-	if (data->eating_count && data->eating_count == 0)
-		handle_error();
 	return (true);
 }
