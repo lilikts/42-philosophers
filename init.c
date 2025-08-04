@@ -12,13 +12,13 @@
 
 #include "philo.h"
 
-void data_init(t_data *data)
+void table_init(t_table *table)
 {
-	if (!data)
+	if (!table)
 		return;
-	data->philo_count = 0;
-	data->time_to_die = 0;
-	data->time_to_eat = 0;
-	data->time_to_sleep = 0;
-	data->eating_count = 0;
+	table->philo_count = 0;
+	table->time_to_die = 0;
+	table->time_to_eat = 0;
+	table->time_to_sleep = 0;
+	table->meals_to_eat = 0;
 }

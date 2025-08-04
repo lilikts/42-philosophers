@@ -14,22 +14,23 @@
 
 int	main(int argc, char **argv)
 {
-	t_data	*data;
+	t_table	*table;
+	t_philo	*philo;
 
 	if (argc < 5 || argc > 6)
 	{
 		handle_error("Invalid number of arguments!");
 		return (EXIT_FAILURE);
 	}
-	data = malloc(sizeof(t_data));
-	if (!data)
+	table = malloc(sizeof(t_table));
+	if (!table)
 	{
-		handle_error("Failed to initailze data!");
+		handle_error("Failed to initailze table!");
 		return (EXIT_FAILURE);
 	}
-	parse_input(argc, argv, &data);
-	start_simulation(&data);
-	monitor_simulation(&data);
-	cleanup(&data);
+	parse_input(argc, argv, &table);
+	philo = create_philos(&table);
+	start_simulation(&table);
+	cleanup(&table);
 	return (0);
 }

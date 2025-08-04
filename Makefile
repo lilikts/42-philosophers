@@ -31,9 +31,6 @@ $(OBJ_DIR)/%.o: %.c
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
-clean: remove-libft
-	@rm -rf $(OBJ_DIR)
-
 fclean: clean
 	@rm -f $(NAME)
 

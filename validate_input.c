@@ -33,13 +33,13 @@ bool	valid_arguments(int argc, char **argv)
 	return (true);
 }
 
-bool	valid_values(t_data *data)
+bool	valid_values(t_table *table)
 {
-	if (data->philo_count < 1 || data->philo_count >= 200)
+	if (table->philo_count < 1 || table->philo_count >= 200)
 		return (false);
-	if (data->time_to_die <= 0 || data->time_to_eat <= 0 || data->time_to_sleep <= 0)
+	if (table->time_to_die <= 0 || table->time_to_eat <= 0 || table->time_to_sleep <= 0)
 		return (false);
-	if (data->eating_count && data->eating_count <= 0)
+	if (table->meals_to_eat && table->meals_to_eat <= 0)
 		return (false);
 	return (true);
 }

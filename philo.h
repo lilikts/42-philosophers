@@ -20,34 +20,37 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_data
+typedef struct s_table
 {
 	int		philo_count;
 	int		time_to_die;
 	int		time_to_eat;
 	int		time_to_sleep;
-	int		eating_count;
+	int		meals_to_eat;
 	long	start_time;
-}	t_data;
+	int		is_dead;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	death_mutex;
+	t_philo	*philo;
+}	t_table;
 
 typedef struct s_philo
 {
 	int		id;
-	int		eat_count;
+	int		meals_eaten;
 	long	last_meal;
-	t_data	*data;
+	pthread_t	thread;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	struct s_table	*table;
+	struct s_philo	*next;
 }	t_philo;
 
-typedef struct s_waiter
-{
-	t_data	*data;
-}	t_waiter;
-
-
-void parse_input(int argc, char **argv, t_data *data);
+void parse_input(int argc, char **argv, t_table *table);
 
 // init
-void data_init(t_data *data);
+void table_init(t_table *table);
 
 // utils
 long	safe_atol(char *str);
@@ -55,7 +58,7 @@ void	handle_error(char *msg);
 
 // validate input
 bool	valid_arguments(int argc, char **argv);
-bool	valid_values(t_data *data);
+bool	valid_values(t_table *table);
 
 
 
