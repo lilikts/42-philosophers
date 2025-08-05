@@ -11,7 +11,7 @@ vpath %.d $(DEP_DIR)
 
 SRCS =	main.c \
 		init.c \
-		handle_error.c \
+		cleanup.c \
 		parsing.c \
 		utils.c \
 		validate_input.c \

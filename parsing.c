@@ -6,31 +6,93 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/07/30 13:24:32 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/05 20:05:14 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void parse_input(int argc, char **argv, t_table *table)
-{	
-	data_init(table);
-	if (!valid_arguments(argc, argv))
-		handle_error("Invalid arguments!");
-	table->philo_count = safe_atol(argv[1]);
-	table->time_to_die = safe_atol(argv[2]);
-	table->time_to_eat = safe_atol(argv[3]);
-	table->time_to_sleep = safe_atol(argv[4]);
+static int	data_init(t_data *data, int argc, char **argv)
+{
+	if (!data)
+		return (1);
+	memset(data, 0, sizeof(*data));
+	data->philo_count = safe_atol(argv[1]);
+	data->time_to_die = safe_atol(argv[2]);
+	data->time_to_eat = safe_atol(argv[3]);
+	data->time_to_sleep = safe_atol(argv[4]);
 	if (argc == 6)
-	table->meals_to_eat = safe_atol(argv[5]);
-	if (table->philo_count == -1 || table->time_to_die == -1 || \
-		table->time_to_eat == -1 || table->time_to_sleep == -1 || \
-		table->time_to_sleep == -1 || (table->meals_to_eat && table->meals_to_eat == -1))
-		return ;
-	if (!valid_values(table))
+		data->meals_to_eat = safe_atol(argv[5]);
+	if (data->philo_count == -1 || data->time_to_die == -1 || \
+		data->time_to_eat == -1 || data->time_to_sleep == -1 || \
+		(data->meals_to_eat && data->meals_to_eat == -1))
+		return (-1);
+	if (!valid_values(data))
 		handle_error("Invalid input values!");
-	if (argc == 6 && table->meals_to_eat == 0)
+	if (argc == 6 && data->meals_to_eat == 0)
 		handle_error("Eating requirement needs to be more than 0!");
-	if (table->time_to_die < table->time_to_eat + table->time_to_sleep)
+	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
 		handle_error("Invalid timing values!");
+	return (0);
+}
+
+static int	table_init(t_data *data, t_table *table)
+{
+	if (!data || !table)
+		return (1);
+	memset(table, 0, sizeof(*table));
+	table->data = data;
+	table->start_time = gettimeofday(); // get_time_in_ms
+	if (create_forks(table) == 1) // sntf
+		return (1);
+	pthread_mutex_init(&table->death_mutex, NULL);
+	pthread_mutex_init(&table->print_mutex, NULL);
+	return (0);
+}
+
+static int	philo_init(t_data *data, t_table *table, t_philo *philo)
+{
+	int	i;
+
+	if (!data || !table || !philo)
+		return (1);
+	i = 0;
+	memset(philo, 0, sizeof(t_philo) * data->philo_count);
+	while (i < data->philo_count)
+	{
+		philo[i].id = i;
+		philo[i].meals_eaten = 0;
+		philo[i].last_meal = //starttime
+		philo[i].is_dead = false;
+		philo[i].left_fork = table->forks[i];
+		philo[i].right_fork = table->forks[(i + 1) % data->philo_count];
+		// what if last one
+		// what if only one philo
+		i++;
+	}
+	return (0);
+}
+
+int parse_input(int argc, char **argv)
+{	
+	t_data *data;
+	t_table	*table;
+	t_philo	*philo;
+
+	data = malloc(sizeof(t_data));
+	table = malloc(sizeof(t_table));
+	if (!data || !table)
+		return (handle_error("Allocation failed!", NULL, NULL, NULL), 1);
+	if (!valid_arguments(argc, argv))
+		return (handle_error("Invalid arguments!", data, table, NULL), 1);
+	if (data_init(data, argc, argv) == 1)
+		return (handle_error("Initialization of data failed!", data, table, NULL), 1);
+	if (table_init(table, data) == 1)
+		return (handle_error("Initialization of table failed!", data, table, NULL), 1);
+	philo = malloc(sizeof(t_philo) * data->philo_count);
+	if (!philo)
+		return (handle_error("Allocation failed!", data, table, philo), 1);
+	if (philo_init(philo, table, data) == 1)
+		return (handle_error("Initialization of philo failed!", data, table, philo), 1);
+	return (0);
 }
