@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:42:49 by lkloters          #+#    #+#             */
-/*   Updated: 2025/07/30 10:42:29 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:54:51 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ bool	valid_arguments(int argc, char **argv)
 	return (true);
 }
 
-bool	valid_values(t_table *table)
+bool	valid_values(t_data *data)
 {
-	if (table->philo_count < 1 || table->philo_count >= 200)
+	if (data->philo_count < 1 || data->philo_count >= 200)
 		return (false);
-	if (table->time_to_die <= 0 || table->time_to_eat <= 0 || table->time_to_sleep <= 0)
+	if (data->time_to_die <= 0 || data->time_to_eat <= 0 || data->time_to_sleep <= 0)
 		return (false);
-	if (table->meals_to_eat && table->meals_to_eat <= 0)
+	if (data->meals_to_eat && data->meals_to_eat <= 0)
 		return (false);
 	return (true);
 }

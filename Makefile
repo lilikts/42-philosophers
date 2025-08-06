@@ -10,11 +10,12 @@ vpath %.h $(INC_DIRS)
 vpath %.d $(DEP_DIR)
 
 SRCS =	main.c \
-		init.c \
-		cleanup.c \
 		parsing.c \
-		utils.c \
 		validate_input.c \
+		utils.c \
+		cleanup.c \
+		create_threads.c \
+		print_structs.c \
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DEPS := $(addprefix $(DEP_DIR)/, $(SRCS:%.c=%.d))
