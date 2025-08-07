@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 10:44:29 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:57:17 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ static int	data_init(t_data *data, int argc, char **argv)
 		data->time_to_eat == -1 || data->time_to_sleep == -1 || \
 		(data->meals_to_eat && data->meals_to_eat == -1))
 		return (1);
-	if (!valid_values(data))
-		return (handle_error("Invalid input values!", data, NULL, NULL), 1);
-	if (argc == 6 && data->meals_to_eat == 0)
-		return (handle_error("Eating requirement needs to be more than 0!", data, NULL, NULL), 1);
-	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
-		return (handle_error("Invalid timing values!", data, NULL, NULL), 1);
 	return (0);
 }
 
@@ -103,18 +97,20 @@ t_table *handle_input(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	table = malloc(sizeof(t_table));
 	if (!data || !table)
-		return (handle_error("Allocation failed!", NULL, NULL, NULL), NULL);
+		return (handle_error("Allocation failed", NULL, NULL, NULL), NULL);
 	if (!valid_arguments(argc, argv))
-		return (handle_error("Invalid arguments!", data, table, NULL), NULL);
+		return (handle_error("Invalid arguments", data, table, NULL), NULL);
 	if (data_init(data, argc, argv) != 0)
-		return (handle_error("Initialization of data failed!", data, table, NULL), NULL);
+		return (handle_error("Initialization of data failed", data, table, NULL), NULL);
+	if (!valid_input(data, argc))
+	return (handle_error("Invalid Input", data, table, NULL), NULL);
 	if (table_init(data, table) != 0)
-		return (handle_error("Initialization of table failed!", data, table, NULL), NULL);
+		return (handle_error("Initialization of table failed", data, table, NULL), NULL);
 	philo = malloc(sizeof(t_philo) * data->philo_count);
 	if (!philo)
-		return (handle_error("Allocation failed!", data, table, philo), NULL);
+		return (handle_error("Allocation failed", data, table, philo), NULL);
 	if (philo_init(data, table, philo) != 0)
-		return (handle_error("Initialization of philo failed!", data, table, philo), NULL);
+		return (handle_error("Initialization of philo failed", data, table, philo), NULL);
 	table->philo = philo;
 	return (table);
 }

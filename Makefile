@@ -14,7 +14,7 @@ SRCS =	main.c \
 		validate_input.c \
 		utils.c \
 		cleanup.c \
-		create_threads.c \
+		simulation.c \
 		print_structs.c \
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
@@ -31,6 +31,9 @@ $(OBJ_DIR)/%.o: %.c
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+
+clean:
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@rm -f $(NAME)

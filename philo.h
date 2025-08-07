@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 10:45:44 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:57:44 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ long	get_time_in_ms(void);
 
 // validate input
 bool	valid_arguments(int argc, char **argv);
-bool	valid_values(t_data *data);
+bool	valid_input(t_data *data, int argc);
 
 // cleanup
 void	cleanup(t_data *data, t_table *table, t_philo *philo);

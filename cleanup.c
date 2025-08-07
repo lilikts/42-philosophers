@@ -6,18 +6,11 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:05 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/06 20:47:27 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:38:45 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void	cleanup_data(t_data *data)
-{
-	if (!data)
-		return ;
-	free(data);
-}
 
 static void	cleanup_table(t_data *data, t_table *table)
 {
@@ -40,27 +33,20 @@ static void	cleanup_table(t_data *data, t_table *table)
 	free(table);
 }
 
-static void	cleanup_philo(t_philo *philo)
-{
-	if (!philo)
-		return ;
-	free(philo);
-}
-
 void	cleanup(t_data *data, t_table *table, t_philo *philo)
 {
-	if (philo)
-		cleanup_philo(philo);
 	if (table)
 		cleanup_table(data, table);
-	if (data)
-		cleanup_data(data);
+	free(philo);
+	free(data);
 }
 
 void	handle_error(const char *msg, void *data, void *table, void *philo)
 {
 	if (msg)
 		printf("Error: %s!\n", msg);
+	if (!table && !data && !philo)
+		exit(EXIT_FAILURE);
 	cleanup(data, table, philo);
 	exit(EXIT_FAILURE);
 }
