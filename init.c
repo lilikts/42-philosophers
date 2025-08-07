@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/06 20:50:55 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 10:44:29 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static int	philo_init(t_data *data, t_table *table, t_philo *philo)
 	return (0);
 }
 
-t_table *parse_input(int argc, char **argv)
+t_table *handle_input(int argc, char **argv)
 {	
 	t_data *data;
 	t_table	*table;
@@ -115,5 +115,6 @@ t_table *parse_input(int argc, char **argv)
 		return (handle_error("Allocation failed!", data, table, philo), NULL);
 	if (philo_init(data, table, philo) != 0)
 		return (handle_error("Initialization of philo failed!", data, table, philo), NULL);
+	table->philo = philo;
 	return (table);
 }

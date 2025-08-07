@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/06 21:10:28 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 10:45:44 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_table
 	long			start_time;
 }	t_table;
 
-t_table *parse_input(int argc, char **argv);
+t_table *handle_input(int argc, char **argv);
 
 // utils
 long	safe_atol(char *str);
