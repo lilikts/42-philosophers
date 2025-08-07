@@ -15,7 +15,7 @@ SRCS =	main.c \
 		utils.c \
 		cleanup.c \
 		simulation.c \
-		print_structs.c \
+		routine.c \
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DEPS := $(addprefix $(DEP_DIR)/, $(SRCS:%.c=%.d))

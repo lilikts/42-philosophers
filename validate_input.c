@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:42:49 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 12:58:00 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:25:48 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	valid_input(t_data *data, int argc)
 		return (false);
 	if (data->meals_to_eat && data->meals_to_eat <= 0)
 		return (false);
-	if (argc == 6 ||data->meals_to_eat <= 0)
+	if (argc == 6 && data->meals_to_eat <= 0)
 		return (false);
 	return (true);
 }

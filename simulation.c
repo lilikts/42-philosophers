@@ -1,31 +1,76 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_threads.c                                   :+:      :+:    :+:   */
+/*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 11:00:19 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/04 11:07:53 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:11:41 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "philo.h"
+#include "philo.h"
 
-// int create_thread()
+static int	create_philo_threads(t_table *table)
+{
+	int	i;
 
-// void	start_simulation(t_data *data)
-// { 
-// 	int	i;
+	if (!table || !table->data || !table->philo)
+		return (1);
+	i = 0;
+	while (i < table->data->philo_count)
+	{
+		if (pthread_create(&table->philo[i].philo_thread, NULL, philo_routine, &table->philo[i]) != 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
-// 	data->start_time = get_time();
-// 	i = 0;
-// 	while (i < data->philo_count)
-// 	{
-// 		if (pthread_create() != 0)
-// 			handle_error("Failed to create thread!");
-// 		i++;
-// 	}
-// 	// pthread _create for waiter
-// 	// pthread_join
-// }
+static int	create_monitor_thread(t_table *table)
+{
+	if (!table || !table->data || !table->philo)
+		return (1);
+	if (pthread_create(&table->monitor.monitor_thread, NULL, monitor_routine, table) != 0)
+		return (1);
+	return (0);
+}
+
+static int	join_philo_threads(t_table *table)
+{
+	int	i;
+
+	if (!table || !table->data || !table->philo)
+		return (1);
+	i = 0;
+	while (i < table->data->philo_count)
+	{
+		if (pthread_join(table->philo[i].philo_thread, NULL) != 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static int join_monitor_thread(t_table *table)
+{
+    if (!table || !table->data || !table->philo)
+		return (1);
+    if (pthread_join(table->monitor.monitor_thread, NULL) != 0)
+        return (1);
+    return (0);
+}
+
+void	start_simulation(t_table *table)
+{
+	table->start_time = get_time_in_ms();
+	if (create_philo_threads(table) != 0)
+		handle_error("Failed to create philo threads", table->data, table, table->philo);
+	if (create_monitor_thread(table) != 0)
+		handle_error("Failed to create monitor thread", table->data, table, table->philo);
+	if (join_philo_threads(table) != 0)
+		handle_error("Failed to join philo threads", table->data, table, table->philo);
+	if (join_monitor_thread(table) != 0)
+		handle_error("Failed to join monitor thread", table->data, table, table->philo);
+}

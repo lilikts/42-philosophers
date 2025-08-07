@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 12:57:44 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:15:39 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,23 @@ typedef struct s_philo
 	int		meals_eaten;
 	long	last_meal;
 	bool			is_dead;
-	pthread_t	thread;
+	pthread_t	philo_thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 }	t_philo;
+
+typedef struct s_monitor
+{
+	pthread_t	monitor_thread;
+	bool	simulation_end;
+}	t_monitor;
+
 
 typedef struct s_table
 {
 	t_data			*data;
 	t_philo			*philo;
+	t_monitor		monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
@@ -53,6 +61,9 @@ typedef struct s_table
 }	t_table;
 
 t_table *handle_input(int argc, char **argv);
+void	start_simulation(t_table *table);
+void *philo_routine(void *arg);
+void *monitor_routine(void *arg);
 
 // utils
 long	safe_atol(char *str);
@@ -65,8 +76,5 @@ bool	valid_input(t_data *data, int argc);
 // cleanup
 void	cleanup(t_data *data, t_table *table, t_philo *philo);
 void	handle_error(const char *msg, void *data, void *table, void *philo);
-
-//print
-void print_table(const t_table *table);
 
 #endif
