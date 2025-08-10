@@ -55,12 +55,21 @@ typedef struct s_table
 	t_data			*data;
 	t_philo			*philo;
 	t_monitor		*monitor;
+	t_status		*status;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
 	long			start_time;
 	long			philo_count;
 }	t_table;
+
+typedef struct s_status
+{
+	long	fork_status;
+	long	print_status;
+	long	death_log_status;
+}	t_status;
+
 
 t_table *handle_input(int argc, char **argv);
 void	start_simulation(t_table *table);
