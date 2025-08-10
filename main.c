@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	t_table	*table;
 
 	if (argc < 5 || argc > 6)
-		handle_error("Wrong number of arguments\n", NULL, NULL, NULL, NULL);
+		handle_error("Wrong number of arguments\n", NULL);
 	table = handle_input(argc, argv);
 	if (!table)
 		return (EXIT_FAILURE);

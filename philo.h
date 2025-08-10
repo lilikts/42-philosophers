@@ -77,6 +77,6 @@ bool	valid_input(t_data *data, int argc);
 
 // cleanup
 void	cleanup(t_data *data, t_table *table, t_philo *philo, t_monitor *monitor);
-void	handle_error(const char *msg, void *data, void *table, void *philo, void *monitor);
+void	handle_error(const char *msg, t_table *table);
 
 #endif

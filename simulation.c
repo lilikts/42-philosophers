@@ -66,11 +66,11 @@ void	start_simulation(t_table *table)
 {
 	table->start_time = get_time_in_ms();
 	if (create_philo_threads(table) != 0)
-		handle_error("Failed to create philo threads", table->data, table, table->philo, table->monitor);
+		handle_error("Failed to create philo threads", table);
 	if (create_monitor_thread(table) != 0)
-		handle_error("Failed to create monitor thread", table->data, table, table->philo, table->monitor);
+		handle_error("Failed to create monitor thread", table);
 	if (join_philo_threads(table) != 0)
-		handle_error("Failed to join philo threads", table->data, table, table->philo, table->monitor);
+		handle_error("Failed to join philo threads", table);
 	if (join_monitor_thread(table) != 0)
-		handle_error("Failed to join monitor thread", table->data, table, table->philo, table->monitor);
+		handle_error("Failed to join monitor thread", table);
 }

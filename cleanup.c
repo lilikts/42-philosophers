@@ -42,12 +42,12 @@ void	cleanup(t_data *data, t_table *table, t_philo *philo, t_monitor *monitor)
 		cleanup_table(table);
 }
 
-void	handle_error(const char *msg, void *data, void *table, void *philo, void *monitor)
+void	handle_error(const char *msg, t_table *table)
 {
 	if (msg)
 		printf("Error: %s!\n", msg);
-	if (!table && !data && !philo && !monitor)
+	if (!table)
 		exit(EXIT_FAILURE);
-	cleanup(data, table, philo, monitor);
+	cleanup(table->data, table, table->philo, table->monitor);
 	exit(EXIT_FAILURE);
 }

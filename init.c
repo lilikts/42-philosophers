@@ -117,16 +117,16 @@ t_table *handle_input(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	table = malloc(sizeof(t_table));
 	if (!data || !table)
-		return (handle_error("Allocation failed", NULL, NULL, NULL, NULL), NULL);
+		return (handle_error("Allocation failed", NULL), NULL);
 	if (!valid_arguments(argc, argv))
-		return (handle_error("Invalid arguments", data, table, NULL, NULL), NULL);
+		return (handle_error("Invalid arguments", table), NULL);
 	if (data_init(data, argc, argv) != 0)
-		return (handle_error("Initialization of data failed", data, table, NULL, NULL), NULL);
+		return (handle_error("Initialization of data failed", table), NULL);
 	if (!valid_input(data, argc))
-		return (handle_error("Invalid Input", data, table, NULL, NULL), NULL);
+		return (handle_error("Invalid Input", table), NULL);
 	if (table_init(data, table) != 0)
-		return (handle_error("Initialization of table failed", data, table, NULL, NULL), NULL);
+		return (handle_error("Initialization of table failed", table), NULL);
 	if (philo_and_monitor_init(table) != 0)
-		return (handle_error("Initialization of philo and monitor failed", data, table, table->philo, table->monitor), NULL);
+		return (handle_error("Initialization of philo and monitor failed", table), NULL);
 	return (table);
 }
