@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 14:19:25 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:41:28 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,3 +114,4 @@ t_table *handle_input(int argc, char **argv)
 	table->philo = philo;
 	return (table);
 }
+// need to add monitor struct
