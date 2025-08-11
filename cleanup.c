@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:05 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 12:38:45 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:08:35 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,14 @@ static void	cleanup_table(t_table *table)
 
 void	cleanup(t_data *data, t_table *table)
 {
-	free(table->philo);
-	free(monitor);
-	free(data);
 	if (table)
+	{
+		free(table->philo);
+		free(table->monitor);
+		free(table->status);
 		cleanup_table(table);
+	}
+	free(data);
 }
 
 void	handle_error(const char *msg, t_data *data, t_table *table)

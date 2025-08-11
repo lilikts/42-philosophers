@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 11:00:19 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 14:11:41 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:35:35 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ static int join_monitor_thread(t_table *table)
     return (0);
 }
 
-void	start_simulation(t_table *table)
+void	start_simulation(t_data *data, t_table *table)
 {
 	table->start_time = get_time_in_ms();
 	if (create_philo_threads(table) != 0)
-		handle_error("Failed to create philo threads", table);
+		handle_error("Failed to create philo threads", data, table);
 	if (create_monitor_thread(table) != 0)
-		handle_error("Failed to create monitor thread", table);
+		handle_error("Failed to create monitor thread", data, table);
 	if (join_philo_threads(table) != 0)
-		handle_error("Failed to join philo threads", table);
+		handle_error("Failed to join philo threads", data, table);
 	if (join_monitor_thread(table) != 0)
-		handle_error("Failed to join monitor thread", table);
+		handle_error("Failed to join monitor thread", data, table);
 }

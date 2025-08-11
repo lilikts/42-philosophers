@@ -10,6 +10,7 @@ vpath %.h $(INC_DIRS)
 vpath %.d $(DEP_DIR)
 
 SRCS =	main.c \
+		parsing.c \
 		init.c \
 		validate_input.c \
 		utils.c \

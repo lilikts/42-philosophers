@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:15:55 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/06 21:03:13 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:51:11 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,26 @@ long	safe_atol(char *str)
 	if (result > INT_MAX)
 		return (1);
 	return (result);
+}
+
+int	create_forks(t_data *data, t_table *table)
+{
+	int	i;
+	
+	if (!data || !table || !table->status)
+		return (1);
+	table->forks = malloc(sizeof(pthread_mutex_t) * data->philo_count);
+	if (!table->forks)
+		return (1);
+	i = 0;
+	while (i < data->philo_count)
+	{
+		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
+			return (1);
+		table->status->fork_status++;
+		i++;
+	}
+	return (0);
 }
 
 long	get_time_in_ms(void)

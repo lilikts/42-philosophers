@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 14:15:39 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:51:20 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,26 @@ typedef struct s_table
 	long			philo_count;
 }	t_table;
 
+// parsing
+t_data *parse_input(int argc, char **argv);
 
-t_table *handle_input(int argc, char **argv);
-void	start_simulation(t_table *table);
+// initialize
+t_table *init_structs(t_data *data);
+void	start_simulation(t_data *data, t_table *table);
 void *philo_routine(void *arg);
 void *monitor_routine(void *arg);
 
 // utils
 long	safe_atol(char *str);
 long	get_time_in_ms(void);
+int	create_forks(t_data *data, t_table *table);
 
 // validate input
 bool	valid_arguments(int argc, char **argv);
 bool	valid_input(t_data *data, int argc);
 
 // cleanup
-void	cleanup(t_data *data, t_table *table, t_philo *philo, t_monitor *monitor);
-void	handle_error(const char *msg, t_table *table);
+void	cleanup(t_data *data, t_table *table);
+void	handle_error(const char *msg, t_data *data, t_table *table);
 
 #endif

@@ -6,49 +6,11 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 15:29:26 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:51:01 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int	create_forks(t_data *data, t_table *table)
-{
-	int	i;
-	
-	if (!data || !table || !table->status)
-		return (1);
-	table->forks = malloc(sizeof(pthread_mutex_t) * data->philo_count);
-	if (!table->forks)
-		return (1);
-	i = 0;
-	while (i < data->philo_count)
-	{
-		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
-			return (1);
-		table->status->fork_status++;
-		i++;
-	}
-	return (0);
-}
-
-static int	data_init(t_data *data, int argc, char **argv)
-{
-	if (!data)
-		return (1);
-	memset(data, 0, sizeof(*data));
-	data->philo_count = safe_atol(argv[1]);
-	data->time_to_die = safe_atol(argv[2]);
-	data->time_to_eat = safe_atol(argv[3]);
-	data->time_to_sleep = safe_atol(argv[4]);
-	if (argc == 6)
-		data->meals_to_eat = safe_atol(argv[5]);
-	if (data->philo_count == -1 || data->time_to_die == -1 || \
-		data->time_to_eat == -1 || data->time_to_sleep == -1 || \
-		(data->meals_to_eat && data->meals_to_eat == -1))
-		return (1);
-	return (0);
-}
 
 static int	table_init(t_data *data, t_table *table, t_status *status)
 {
@@ -123,31 +85,22 @@ static int	status_init(t_status *status)
 	return (0);
 }
 
-t_table *handle_input(int argc, char **argv)
-{	
-	t_data *data;
+t_table *init_structs(t_data *data)
+{
+	t_table		*table;
 	t_status	*status;
-	t_table	*table;
-	
-	data = malloc(sizeof(t_data));
-	status = malloc(sizeof(t_status));
+
+	if (!data)
+		return (NULL);
 	table = malloc(sizeof(t_table));
-	if (!data || !status || !table)
-		return (handle_error("Allocation failed", NULL), NULL);
-	if (!valid_arguments(argc, argv))
-		return (handle_error("Invalid arguments", table), NULL);
-	if (data_init(data, argc, argv) != 0)
-		return (handle_error("Initialization of data failed", table), NULL);
-	if (!valid_input(data, argc))
-		return (handle_error("Invalid Input", table), NULL);
-	if (status_init(status) != 0)
-		return (handle_error("Initialization of status failed", table), NULL);
+	status = malloc(sizeof(t_status));
+	if (!table || !status)
+		return (handle_error("Allocation failed", data, table), NULL);
 	if (table_init(data, table, status) != 0)
-		return (handle_error("Initialization of table failed", table), NULL);
+		return (handle_error("Initialization of table failed", data, table), NULL);
+	if (status_init(status) != 0)
+		return (handle_error("Initialization of status failed", data, table), NULL);
 	if (philo_and_monitor_init(table) != 0)
-		return (handle_error("Initialization of philo and monitor failed", table), NULL);
+		return (handle_error("Initialization of philo and monitor failed", data, table), NULL);
 	return (table);
 }
-
-// kann nicht funktioneren, da table erst nach data erstellt wird und ich gleich anfangs nur table mitgebe
-// lieber data nicht mit table verknüpfen, da input und veränderte values nicht mixen
