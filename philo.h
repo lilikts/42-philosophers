@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 15:51:20 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:44:19 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	pthread_t	philo_thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	struct s_table	*table;
 }	t_philo;
 
 typedef struct s_monitor

@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:15:55 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 15:51:11 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:48:38 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,4 @@ int	create_forks(t_data *data, t_table *table)
 		i++;
 	}
 	return (0);
-}
-
-long	get_time_in_ms(void)
-{
-	struct timeval	tv;
-	long			time_in_ms;
-
-	if (gettimeofday(&tv, NULL) != 0)
-		return (-1);
-	time_in_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (time_in_ms);
 }

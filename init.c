@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 15:51:01 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:43:33 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int	philo_init(t_table *table, t_philo *philo)
 		philo[i].is_dead = false;
 		philo[i].left_fork = &table->forks[i];
 		philo[i].right_fork = &table->forks[(i + 1) % table->data->philo_count];
+		philo[i].table = table;
 		i++;
 	}
 	return (0);
