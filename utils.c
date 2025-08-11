@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:15:55 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 16:48:38 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:38:21 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,29 @@ int	create_forks(t_data *data, t_table *table)
 	
 	if (!data || !table || !table->status)
 		return (1);
-	table->forks = malloc(sizeof(pthread_mutex_t) * data->philo_count);
-	if (!table->forks)
+	table->fork_mutex = malloc(sizeof(pthread_mutex_t) * data->philo_count);
+	if (!table->fork_mutex)
 		return (1);
 	i = 0;
 	while (i < data->philo_count)
 	{
-		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
+		if (pthread_mutex_init(&table->fork_mutex[i], NULL) != 0)
 			return (1);
 		table->status->fork_status++;
 		i++;
 	}
 	return (0);
 }
+
+void	smart_sleep(long time_in_ms, t_table *table)
+{
+	long	start;
+	
+	start = get_time_in_ms();
+	while (!table->monitor->philo_dead)
+	{
+		if (get_time_in_ms() - start >= time_in_ms)
+			break ;
+		usleep(500);
+	}
+} // still need to check

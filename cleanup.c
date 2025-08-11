@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:05 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 16:08:35 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:13:28 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,27 @@
 static void	cleanup_table(t_table *table)
 {
 	int	i;
-
+	t_status *status;
+	
 	if (!table)
 		return ;
-	if (table->forks)
+	status = table->status;
+	if (table->fork_mutex && status && status->fork_status > 0)
 	{
 		i = 0;
-		while (i < table->philo_count)
+		while (i < status->fork_status)
 		{
-			pthread_mutex_destroy(&table->forks[i]);
+			pthread_mutex_destroy(&table->fork_mutex[i]);
 			i++;
 		}
-		free(table->forks);
+		free(table->fork_mutex);
 	}
-	pthread_mutex_destroy(&table->death_mutex);
-	pthread_mutex_destroy(&table->print_mutex);
-	free(table);
+	if (table->status && table->status->death_log_status)
+		pthread_mutex_destroy(&table->death_mutex);
+	if (table->status && table->status->print_status)
+		pthread_mutex_destroy(&table->print_mutex);
+	if (table->status && table->status->meal_status)
+		pthread_mutex_destroy(&table->meal_mutex);
 }
 
 void	cleanup(t_data *data, t_table *table)
@@ -39,10 +44,12 @@ void	cleanup(t_data *data, t_table *table)
 	{
 		free(table->philo);
 		free(table->monitor);
-		free(table->status);
 		cleanup_table(table);
+		free(table->status);
+		free(table);
 	}
-	free(data);
+	if (data)
+		free(data);
 }
 
 void	handle_error(const char *msg, t_data *data, t_table *table)

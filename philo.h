@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 16:44:19 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:46:26 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	struct s_table	*table;
+	struct s_data	*data;
 }	t_philo;
 
 typedef struct s_monitor
@@ -54,6 +55,7 @@ typedef struct s_status
 {
 	long	fork_status;
 	long	print_status;
+	long	meal_status;
 	long	death_log_status;
 }	t_status;
 
@@ -63,9 +65,10 @@ typedef struct s_table
 	t_philo			*philo;
 	t_monitor		*monitor;
 	t_status		*status;
-	pthread_mutex_t	*forks;
+	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	meal_mutex;
 	long			start_time;
 	long			philo_count;
 }	t_table;
@@ -87,6 +90,15 @@ int	create_forks(t_data *data, t_table *table);
 // validate input
 bool	valid_arguments(int argc, char **argv);
 bool	valid_input(t_data *data, int argc);
+
+// routine
+void	*philo_routine(void *arg);
+void	take_forks(t_philo *philo);
+void	eat(t_philo *philo);
+void	sleep(t_philo *philo);
+void	release_fork(t_philo *philo);
+void	think(t_philo *philo);
+
 
 // cleanup
 void	cleanup(t_data *data, t_table *table);
