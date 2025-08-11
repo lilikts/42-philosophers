@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine_actions.c                                  :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:11:34 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 20:48:43 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:54:52 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ void	take_forks(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
+		print_action(philo->table, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
+		print_action(philo->table, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
+		print_action(philo->table, "has taken a fork");
 		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
+		print_action(philo->table, "has taken a fork");
 	}
 }
 
@@ -40,13 +40,13 @@ void	eat(t_philo *philo)
 	smart_sleep(philo->data->time_to_eat, philo->table);
 }
 
-void	release_fork(t_philo *philo)
+void	release_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->left_fork);
-	pthread_mutex_unlock(&philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
-void	sleep(t_philo *philo)
+void	rest(t_philo *philo)
 {
 	print_action(philo->table, "is sleeping");
 	smart_sleep(philo->data->time_to_sleep, philo->table);

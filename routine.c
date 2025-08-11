@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:14:48 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 21:26:35 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:51:28 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,57 @@ static void	handle_one_philo(t_philo *philo)
 	print_action(philo->table, "has taken a fork");
 	smart_sleep(philo->data->time_to_die, philo->table);
 	pthread_mutex_unlock(philo->left_fork);
+}
+
+static bool	check_death(t_table *table)
+{
+	int	i;
+	long	now;
+
+	i = 0;
+	while (i < table->data->philo_count)
+	{
+		now = get_time_in_ms();
+		pthread_mutex_lock(&table->meal_mutex);
+		if (now - table->philo[i].last_meal >= table->data->time_to_die)
+		{
+			pthread_mutex_lock(&table->print_mutex);
+			if (!table->monitor->philo_dead)
+			{
+				print_action(table, "died");
+				table->monitor->philo_dead = true;
+			}
+			pthread_mutex_unlock(&table->print_mutex);
+			pthread_mutex_unlock(&table->meal_mutex);
+			return (true);
+		}
+		pthread_mutex_unlock(&table->meal_mutex);
+		i++;
+	}
+	return (false);
+}
+
+static bool check_all_full(t_table *table)
+{
+	int	i;
+	long	full_count;
+
+	if (table->data->meals_to_eat <= 0)
+		return (false);
+	i = 0;
+	full_count = 0;
+	while (i < table->data->philo_count)
+	{
+		pthread_mutex_lock(&table->meal_mutex);
+		if (table->philo[i].meals_eaten >= table->data->meals_to_eat)
+			full_count++;
+		pthread_mutex_unlock(&table->meal_mutex);
+		i++;	
+	}
+	if (full_count == table->data->philo_count)
+		return (true);
+	else
+		return (false);
 }
 
 void	*philo_routine(void *arg)
@@ -32,16 +83,18 @@ void	*philo_routine(void *arg)
 	}
 	if (philo->id % 2 == 0)
 		usleep(200);
-	while (// is_dead flag is not true)
+	while (!philo->table->monitor->philo_dead && \
+		philo->table->monitor->philo_full < philo->data->philo_count)
 	{
 		take_forks(philo);
 		eat(philo);
 		release_forks(philo);
-		sleep(philo);
+		rest(philo);
 		think(philo);
 	}
 	return (NULL);
 }
+
 void	*monitor_routine(void *arg)
 {
 	t_table	*table;
