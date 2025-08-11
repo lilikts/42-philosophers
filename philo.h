@@ -49,6 +49,12 @@ typedef struct s_monitor
 	long	philo_full;
 }	t_monitor;
 
+typedef struct s_status
+{
+	long	fork_status;
+	long	print_status;
+	long	death_log_status;
+}	t_status;
 
 typedef struct s_table
 {
@@ -62,13 +68,6 @@ typedef struct s_table
 	long			start_time;
 	long			philo_count;
 }	t_table;
-
-typedef struct s_status
-{
-	long	fork_status;
-	long	print_status;
-	long	death_log_status;
-}	t_status;
 
 
 t_table *handle_input(int argc, char **argv);

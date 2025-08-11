@@ -33,21 +33,21 @@ static void	cleanup_table(t_table *table)
 	free(table);
 }
 
-void	cleanup(t_data *data, t_table *table, t_philo *philo, t_monitor *monitor)
+void	cleanup(t_data *data, t_table *table)
 {
-	free(philo);
+	free(table->philo);
 	free(monitor);
 	free(data);
 	if (table)
 		cleanup_table(table);
 }
 
-void	handle_error(const char *msg, t_table *table)
+void	handle_error(const char *msg, t_data *data, t_table *table)
 {
 	if (msg)
 		printf("Error: %s!\n", msg);
-	if (!table)
+	if (!table && !data)
 		exit(EXIT_FAILURE);
-	cleanup(table->data, table, table->philo, table->monitor);
+	cleanup(data, table);
 	exit(EXIT_FAILURE);
 }

@@ -140,7 +140,7 @@ t_table *handle_input(int argc, char **argv)
 		return (handle_error("Initialization of data failed", table), NULL);
 	if (!valid_input(data, argc))
 		return (handle_error("Invalid Input", table), NULL);
-	if (!status_init(status) != 0)
+	if (status_init(status) != 0)
 		return (handle_error("Initialization of status failed", table), NULL);
 	if (table_init(data, table, status) != 0)
 		return (handle_error("Initialization of table failed", table), NULL);
