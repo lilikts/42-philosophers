@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static void	cleanup_table(t_data *data, t_table *table)
+static void	cleanup_table(t_table *table)
 {
 	int	i;
 
@@ -21,7 +21,7 @@ static void	cleanup_table(t_data *data, t_table *table)
 	if (table->forks)
 	{
 		i = 0;
-		while (i < data->philo_count)
+		while (i < table->philo_count)
 		{
 			pthread_mutex_destroy(&table->forks[i]);
 			i++;
@@ -33,20 +33,21 @@ static void	cleanup_table(t_data *data, t_table *table)
 	free(table);
 }
 
-void	cleanup(t_data *data, t_table *table, t_philo *philo)
+void	cleanup(t_data *data, t_table *table)
 {
-	if (table)
-		cleanup_table(data, table);
-	free(philo);
+	free(table->philo);
+	free(monitor);
 	free(data);
+	if (table)
+		cleanup_table(table);
 }
 
-void	handle_error(const char *msg, void *data, void *table, void *philo)
+void	handle_error(const char *msg, t_data *data, t_table *table)
 {
 	if (msg)
 		printf("Error: %s!\n", msg);
-	if (!table && !data && !philo)
+	if (!table && !data)
 		exit(EXIT_FAILURE);
-	cleanup(data, table, philo);
+	cleanup(data, table);
 	exit(EXIT_FAILURE);
 }

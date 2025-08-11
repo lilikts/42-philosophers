@@ -32,7 +32,7 @@ static int	create_monitor_thread(t_table *table)
 {
 	if (!table || !table->data || !table->philo)
 		return (1);
-	if (pthread_create(&table->monitor.monitor_thread, NULL, monitor_routine, table) != 0)
+	if (pthread_create(&table->monitor->monitor_thread, NULL, monitor_routine, table) != 0)
 		return (1);
 	return (0);
 }
@@ -57,7 +57,7 @@ static int join_monitor_thread(t_table *table)
 {
     if (!table || !table->data || !table->philo)
 		return (1);
-    if (pthread_join(table->monitor.monitor_thread, NULL) != 0)
+    if (pthread_join(table->monitor->monitor_thread, NULL) != 0)
         return (1);
     return (0);
 }
@@ -66,11 +66,11 @@ void	start_simulation(t_table *table)
 {
 	table->start_time = get_time_in_ms();
 	if (create_philo_threads(table) != 0)
-		handle_error("Failed to create philo threads", table->data, table, table->philo);
+		handle_error("Failed to create philo threads", table);
 	if (create_monitor_thread(table) != 0)
-		handle_error("Failed to create monitor thread", table->data, table, table->philo);
+		handle_error("Failed to create monitor thread", table);
 	if (join_philo_threads(table) != 0)
-		handle_error("Failed to join philo threads", table->data, table, table->philo);
+		handle_error("Failed to join philo threads", table);
 	if (join_monitor_thread(table) != 0)
-		handle_error("Failed to join monitor thread", table->data, table, table->philo);
+		handle_error("Failed to join monitor thread", table);
 }

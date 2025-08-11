@@ -45,20 +45,30 @@ typedef struct s_philo
 typedef struct s_monitor
 {
 	pthread_t	monitor_thread;
-	bool	simulation_end;
+	bool	philo_dead;
+	long	philo_full;
 }	t_monitor;
 
+typedef struct s_status
+{
+	long	fork_status;
+	long	print_status;
+	long	death_log_status;
+}	t_status;
 
 typedef struct s_table
 {
 	t_data			*data;
 	t_philo			*philo;
-	t_monitor		monitor;
+	t_monitor		*monitor;
+	t_status		*status;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
 	long			start_time;
+	long			philo_count;
 }	t_table;
+
 
 t_table *handle_input(int argc, char **argv);
 void	start_simulation(t_table *table);
@@ -74,7 +84,7 @@ bool	valid_arguments(int argc, char **argv);
 bool	valid_input(t_data *data, int argc);
 
 // cleanup
-void	cleanup(t_data *data, t_table *table, t_philo *philo);
-void	handle_error(const char *msg, void *data, void *table, void *philo);
+void	cleanup(t_data *data, t_table *table, t_philo *philo, t_monitor *monitor);
+void	handle_error(const char *msg, t_table *table);
 
 #endif
