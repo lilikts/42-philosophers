@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:15:55 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 12:25:24 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:40:45 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ long	safe_atol(char *str)
 	while (str[i])
 	{
 		if (result > (LONG_MAX - (str[i] - '0')) / 10)
-			return (1);
+			return (-1);
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
 	if (result > INT_MAX)
-		return (1);
+		return (-1);
 	return (result);
 }
 
