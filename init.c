@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 19:51:23 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 10:30:48 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	philo_init(t_table *table, t_philo *philo)
 	i = 0;
 	while (i < table->data->philo_count)
 	{
-		philo[i].id = i;
+		philo[i].id = i + 1;
 		philo[i].meals_eaten = 0;
 		philo[i].last_meal = table->start_time;
 		philo[i].is_dead = false;
@@ -100,10 +100,10 @@ t_table *init_structs(t_data *data)
 	status = malloc(sizeof(t_status));
 	if (!table || !status)
 		return (handle_error("Allocation failed", data, table), NULL);
-	if (table_init(data, table, status) != 0)
-		return (handle_error("Initialization of table failed", data, table), NULL);
 	if (status_init(status) != 0)
 		return (handle_error("Initialization of status failed", data, table), NULL);
+	if (table_init(data, table, status) != 0)
+		return (handle_error("Initialization of table failed", data, table), NULL);
 	if (philo_and_monitor_init(table) != 0)
 		return (handle_error("Initialization of philo and monitor failed", data, table), NULL);
 	return (table);

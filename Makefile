@@ -20,6 +20,7 @@ SRCS =	main.c \
 		actions.c \
 		print.c \
 		timestamps.c \
+		debug.c \
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DEPS := $(addprefix $(DEP_DIR)/, $(SRCS:%.c=%.d))
