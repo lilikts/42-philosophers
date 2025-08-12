@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:53:41 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 12:35:31 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:32:49 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 	t_table	*table;
 
 	if (argc < 5 || argc > 6)
-		handle_error("Wrong number of arguments\n", NULL, NULL);
+		handle_error("Wrong number of arguments", NULL, NULL);
 	data = parse_input(argc, argv);
 	if (!data)
 		return (EXIT_FAILURE);
