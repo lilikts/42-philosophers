@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:53:41 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 10:34:38 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:35:31 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int argc, char **argv)
 	table = init_structs(data);
 	if (!table)
 		return (EXIT_FAILURE);
-	// print_table_state(table);
 	start_simulation(data, table);
 	cleanup(data, table);
 	return (EXIT_SUCCESS);

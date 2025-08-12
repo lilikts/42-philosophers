@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:42:49 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/07 14:25:48 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:24:53 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ bool	valid_input(t_data *data, int argc)
 {
 	if (data->philo_count < 1 || data->philo_count >= 200)
 		return (false);
-	if (data->time_to_die <= 0 || data->time_to_eat <= 0 || data->time_to_sleep <= 0)
+	if (data->time_to_die <= 0 || data->time_to_eat <= 0 || \
+		data->time_to_sleep <= 0)
 		return (false);
 	if (data->meals_to_eat && data->meals_to_eat <= 0)
 		return (false);

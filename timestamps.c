@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:48:21 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 10:34:17 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:25:59 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ long	get_time_in_ms(void)
 	return (time_in_ms);
 }
 
-long timestamp(t_table *table)
+long	timestamp(t_table *table)
 {
-    return (get_time_in_ms() - table->start_time);
+	return (get_time_in_ms() - table->start_time);
 }

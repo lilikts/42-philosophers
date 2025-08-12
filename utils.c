@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:15:55 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 10:34:23 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:25:24 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ long	safe_atol(char *str)
 int	create_forks(t_data *data, t_table *table)
 {
 	int	i;
-	
+
 	if (!data || !table || !table->status)
 		return (1);
 	table->fork_mutex = malloc(sizeof(pthread_mutex_t) * data->philo_count);
@@ -56,7 +56,7 @@ int	create_forks(t_data *data, t_table *table)
 void	smart_sleep(long time_in_ms, t_table *table)
 {
 	long	start;
-	
+
 	start = get_time_in_ms();
 	while (!table->monitor->philo_dead)
 	{
@@ -64,4 +64,4 @@ void	smart_sleep(long time_in_ms, t_table *table)
 			break ;
 		usleep(500);
 	}
-} // still need to check
+}

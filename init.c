@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 10:30:48 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:35:10 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	table_init(t_data *data, t_table *table, t_status *status)
 	if (create_forks(data, table) != 0)
 		return (1);
 	if (pthread_mutex_init(&table->death_mutex, NULL) != 0)
-			return (1);
+		return (1);
 	table->status->death_log_status = 1;
 	if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
 		return (1);
@@ -51,7 +51,8 @@ static int	philo_init(t_table *table, t_philo *philo)
 		philo[i].last_meal = table->start_time;
 		philo[i].is_dead = false;
 		philo[i].left_fork = &table->fork_mutex[i];
-		philo[i].right_fork = &table->fork_mutex[(i + 1) % table->data->philo_count];
+		philo[i].right_fork = &table->fork_mutex[(i + 1) % \
+			table->data->philo_count];
 		philo[i].table = table;
 		philo[i].data = table->data;
 		i++;
@@ -61,11 +62,11 @@ static int	philo_init(t_table *table, t_philo *philo)
 
 static int	philo_and_monitor_init(t_table *table)
 {
+	t_philo		*philo;
+	t_monitor	*monitor;
+
 	if (!table || !table->data)
 		return (1);
-	t_philo	*philo;
-	t_monitor *monitor;
-
 	philo = malloc(sizeof(t_philo) * table->data->philo_count);
 	monitor = malloc(sizeof(t_monitor));
 	if (!philo || !monitor)
@@ -89,7 +90,7 @@ static int	status_init(t_status *status)
 	return (0);
 }
 
-t_table *init_structs(t_data *data)
+t_table	*init_structs(t_data *data)
 {
 	t_table		*table;
 	t_status	*status;
@@ -101,12 +102,19 @@ t_table *init_structs(t_data *data)
 	if (!table || !status)
 		return (handle_error("Allocation failed", data, table), NULL);
 	if (status_init(status) != 0)
-		return (handle_error("Initialization of status failed", data, table), NULL);
+	{
+		handle_error("Initialization of status failed", data, table);
+		return (NULL);
+	}
 	if (table_init(data, table, status) != 0)
-		return (handle_error("Initialization of table failed", data, table), NULL);
+	{
+		handle_error("Initialization of table failed", data, table);
+		return (NULL);
+	}
 	if (philo_and_monitor_init(table) != 0)
-		return (handle_error("Initialization of philo and monitor failed", data, table), NULL);
+	{
+		handle_error("Initialization of philo and monitor failed", data, table);
+		return (NULL);
+	}
 	return (table);
 }
-
-// split philo and monitor init

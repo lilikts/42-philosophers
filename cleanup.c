@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:05 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 21:13:28 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:36:13 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	cleanup_table(t_table *table)
 {
-	int	i;
-	t_status *status;
-	
+	int			i;
+	t_status	*status;
+
 	if (!table)
 		return ;
 	status = table->status;

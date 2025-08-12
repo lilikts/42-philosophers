@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:31:15 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/11 15:43:37 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:31:29 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	data_init(t_data *data, int argc, char **argv)
 	return (0);
 }
 
-t_data *parse_input(int argc, char **argv)
+t_data	*parse_input(int argc, char **argv)
 {
 	t_data	*data;
 

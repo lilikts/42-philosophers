@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:14:48 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 11:13:36 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:28:46 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	handle_one_philo(t_philo *philo)
 
 static bool	check_death(t_table *table)
 {
-	int	i;
+	int		i;
 	long	now;
 
 	i = 0;
@@ -46,9 +46,9 @@ static bool	check_death(t_table *table)
 	return (false);
 }
 
-static bool check_all_full(t_table *table)
+static bool	check_all_full(t_table *table)
 {
-	int	i;
+	int		i;
 	long	full_count;
 
 	if (table->data->meals_to_eat <= 0)
@@ -61,7 +61,7 @@ static bool check_all_full(t_table *table)
 		if (table->philo[i].meals_eaten >= table->data->meals_to_eat)
 			full_count++;
 		pthread_mutex_unlock(&table->meal_mutex);
-		i++;	
+		i++;
 	}
 	if (full_count == table->data->philo_count)
 		return (true);
