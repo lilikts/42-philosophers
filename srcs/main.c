@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   timestamps.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/11 16:48:21 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 13:20:07 by lkloters         ###   ########.fr       */
+/*   Created: 2025/07/22 13:53:41 by lkloters          #+#    #+#             */
+/*   Updated: 2025/08/13 17:14:34 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	get_time_in_ms(void)
+int	main(int argc, char **argv)
 {
-	struct timeval	tv;
-	long			time_in_ms;
+	t_data	*data;
+	t_table	*table;
 
-	if (gettimeofday(&tv, NULL) != 0)
-		return (-1);
-	time_in_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (time_in_ms);
-}
-
-long	timestamp(t_table *table)
-{
-	return (get_time_in_ms() - table->start_time);
+	if (argc < 5 || argc > 6)
+		handle_error("Wrong number of arguments", NULL, NULL);
+	data = parse_input(argc, argv);
+	if (!data)
+		return (EXIT_FAILURE);
+	table = init_structs(data);
+	if (!table)
+		return (EXIT_FAILURE);
+	start_simulation(data, table);
+	cleanup(data, table);
+	return (EXIT_SUCCESS);
 }

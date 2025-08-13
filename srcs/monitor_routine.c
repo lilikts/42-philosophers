@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   monitor_routine.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 14:14:48 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 17:05:40 by lkloters         ###   ########.fr       */
+/*   Created: 2025/08/13 17:18:37 by lkloters          #+#    #+#             */
+/*   Updated: 2025/08/13 17:23:25 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	handle_one_philo(t_philo *philo)
-{
-	pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(&philo->table->print_mutex);
-	printf("%ld %d %s\n", timestamp(philo->table), philo->id, "has taken fork");
-	pthread_mutex_unlock(&philo->table->print_mutex);
-	smart_sleep(philo->data->time_to_die, philo->table);
-	pthread_mutex_unlock(philo->left_fork);
-}
-
-static bool is_dead(t_table *table, t_philo *philo)
+static bool	is_dead(t_table *table, t_philo *philo)
 {
 	long	now;
 	bool	dead;
@@ -68,31 +58,6 @@ static bool	all_full(t_table *table, int philo_full)
 		return (true);
 	}
 	return (false);
-}
-
-void	*philo_routine(void *arg)
-{
-	t_philo	*philo;
-	
-	philo = (t_philo *)arg;
-	if (philo->data->philo_count == 1)
-	{
-		handle_one_philo(philo);
-		return (NULL);
-	}
-	if (philo->id % 2 == 0)
-		usleep(200);
-	while (!check_death_flag(philo->table))
-	{
-		take_forks(philo);
-		eat(philo);
-		release_forks(philo);
-		if (is_philo_finished(philo))
-			break ;
-		rest(philo);
-		think(philo);
-	}
-	return (NULL);
 }
 
 void	*monitor_routine(void *arg)

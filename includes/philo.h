@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 15:50:23 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/13 18:01:18 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,40 +77,37 @@ typedef struct s_table
 // parsing
 t_data	*parse_input(int argc, char **argv);
 
-// initialize
-t_table	*init_structs(t_data *data);
-void	start_simulation(t_data *data, t_table *table);
-void	*philo_routine(void *arg);
-void	*monitor_routine(void *arg);
-
-// utils
-long	safe_atol(char *str);
-long	get_time_in_ms(void);
-int		create_forks(t_data *data, t_table *table);
-long	timestamp(t_table *table);
-void	smart_sleep(long time_in_ms, t_table *table);
-bool	check_death_flag(t_table *table);
-bool	check_full_flag(t_table *table);
-bool	is_philo_finished(t_philo *philo);
-
 // validate input
 bool	valid_arguments(int argc, char **argv);
 bool	valid_input(t_data *data, int argc);
 
-// routine
+// initialize
+t_table	*init_structs(t_data *data);
+
+// simulation
+void	start_simulation(t_data *data, t_table *table);
+
+// routines
 void	*philo_routine(void *arg);
+bool	is_philo_finished(t_philo *philo);
+bool	check_death_flag(t_table *table);
 void	*monitor_routine(void *arg);
 void	take_forks(t_philo *philo);
 void	eat(t_philo *philo);
 void	rest(t_philo *philo);
 void	release_forks(t_philo *philo);
 void	think(t_philo *philo);
-bool	check_death_flag(t_table *table);
+
+// utils
+int		create_forks(t_data *data, t_table *table);
+long	get_time_in_ms(void);
+long	safe_atol(char *str);
+void	smart_sleep(long time_in_ms, t_table *table);
+long	timestamp(t_table *table);
 
 // cleanup
 void	cleanup(t_data *data, t_table *table);
 void	handle_error(const char *msg, t_data *data, t_table *table);
 
-// void	debug_table(t_table *table);
 
 #endif

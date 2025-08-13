@@ -4,23 +4,30 @@ CFLAGS = -Wall -Wextra -Werror -g
 OBJ_DIR := ./obj
 DEP_DIR := $(OBJ_DIR)/.deps
 INC_DIRS := ./includes
-SRC_DIRS := ./srcs
+SRC_DIRS := $(shell find ./srcs -type d)
 vpath %.c $(SRC_DIRS)
 vpath %.h $(INC_DIRS)
 vpath %.d $(DEP_DIR)
 
-SRCS =	main.c \
-		parsing.c \
-		init.c \
-		validate_input.c \
-		utils.c \
+SRCS :=	main.c \
+
+# UTILS
+SRCS += create_forks.c \
+		get_time_in_ms.c \
+		safe_atol.c \
+		smart_sleep.c \
+		timestamp.c \
+
+# SRCS
+SRCS += actions.c \
 		cleanup.c \
+		forks.c \
+		init.c \
+		monitor_routine.c \
+		parsing.c \
+		philo_routine.c \
 		simulation.c \
-		routine.c \
-		actions.c \
-		mutexes.c \
-		timestamps.c \
-		debug.c \
+		validate_input.c \
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 DEPS := $(addprefix $(DEP_DIR)/, $(SRCS:%.c=%.d))

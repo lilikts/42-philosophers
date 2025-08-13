@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   timestamps.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 13:53:41 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 13:19:26 by lkloters         ###   ########.fr       */
+/*   Created: 2025/08/11 16:48:21 by lkloters          #+#    #+#             */
+/*   Updated: 2025/08/13 17:42:12 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+long	timestamp(t_table *table)
 {
-	t_data	*data;
-	t_table	*table;
-
-	if (argc < 5 || argc > 6)
-		handle_error("Wrong number of arguments", NULL, NULL);
-	data = parse_input(argc, argv);
-	if (!data)
-		return (EXIT_FAILURE);
-	table = init_structs(data);
-	if (!table)
-		return (EXIT_FAILURE);
-	// debug_table(table);
-	start_simulation(data, table);
-	cleanup(data, table);
-	return (EXIT_SUCCESS);
+	return (get_time_in_ms() - table->start_time);
 }
