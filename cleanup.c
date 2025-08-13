@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:05 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 12:36:13 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:11:53 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,29 @@ static void	cleanup_table(t_table *table)
 		pthread_mutex_destroy(&table->death_mutex);
 	if (table->status && table->status->print_status)
 		pthread_mutex_destroy(&table->print_mutex);
-	if (table->status && table->status->meal_status)
-		pthread_mutex_destroy(&table->meal_mutex);
+	if (table->status && table->status->is_full_status)
+		pthread_mutex_destroy(&table->is_full_mutex);
+}
+
+static void	cleanup_philo(t_table *table)
+{
+	int	i;
+
+	if (!table || !table->philo)
+		return ;
+	i = 0;
+	while (i < table->status->meal_status)
+	{
+		pthread_mutex_destroy(&table->philo[i].meal_mutex);
+		i++;
+	}
 }
 
 void	cleanup(t_data *data, t_table *table)
 {
 	if (table)
 	{
+		cleanup_philo(table);
 		free(table->philo);
 		free(table->monitor);
 		cleanup_table(table);

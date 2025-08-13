@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 12:35:10 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:58:56 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int	table_init(t_data *data, t_table *table, t_status *status)
 	table->data = data;
 	table->status = status;
 	table->start_time = get_time_in_ms();
-	table->philo_count = table->data->philo_count;
 	if (table->start_time == -1)
 		return (1);
 	if (create_forks(data, table) != 0)
@@ -31,9 +30,9 @@ static int	table_init(t_data *data, t_table *table, t_status *status)
 	if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
 		return (1);
 	table->status->print_status = 1;
-	if (pthread_mutex_init(&table->meal_mutex, NULL) != 0)
+	if (pthread_mutex_init(&table->is_full_mutex, NULL) != 0)
 		return (1);
-	table->status->meal_status = 1;
+	table->status->is_full_status = 1;
 	return (0);
 }
 
@@ -49,12 +48,15 @@ static int	philo_init(t_table *table, t_philo *philo)
 		philo[i].id = i + 1;
 		philo[i].meals_eaten = 0;
 		philo[i].last_meal = table->start_time;
-		philo[i].is_dead = false;
 		philo[i].left_fork = &table->fork_mutex[i];
 		philo[i].right_fork = &table->fork_mutex[(i + 1) % \
 			table->data->philo_count];
 		philo[i].table = table;
 		philo[i].data = table->data;
+		philo[i].status = table->status;
+		if (pthread_mutex_init(&philo->meal_mutex, NULL) != 0)
+			return (1);
+		table->status->meal_status++;
 		i++;
 	}
 	return (0);
@@ -77,8 +79,6 @@ static int	philo_and_monitor_init(t_table *table)
 		return (1);
 	table->philo = philo;
 	table->monitor = monitor;
-	table->monitor->philo_dead = false;
-	table->monitor->philo_full = 0;
 	return (0);
 }
 

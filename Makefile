@@ -18,7 +18,7 @@ SRCS =	main.c \
 		simulation.c \
 		routine.c \
 		actions.c \
-		print.c \
+		mutexes.c \
 		timestamps.c \
 		debug.c \
 

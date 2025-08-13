@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:14:48 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 12:28:46 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:05:40 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,64 +15,65 @@
 static void	handle_one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	print_action(philo, "has taken a fork");
+	pthread_mutex_lock(&philo->table->print_mutex);
+	printf("%ld %d %s\n", timestamp(philo->table), philo->id, "has taken fork");
+	pthread_mutex_unlock(&philo->table->print_mutex);
 	smart_sleep(philo->data->time_to_die, philo->table);
 	pthread_mutex_unlock(philo->left_fork);
 }
 
-static bool	check_death(t_table *table)
+static bool is_dead(t_table *table, t_philo *philo)
 {
-	int		i;
 	long	now;
+	bool	dead;
 
-	i = 0;
-	while (i < table->data->philo_count)
+	dead = false;
+	now = get_time_in_ms();
+	pthread_mutex_lock(&philo->meal_mutex);
+	if (now - philo->last_meal >= table->data->time_to_die)
 	{
-		now = get_time_in_ms();
-		pthread_mutex_lock(&table->meal_mutex);
-		if (now - table->philo[i].last_meal >= table->data->time_to_die)
-		{
-			if (!table->monitor->philo_dead)
-			{
-				print_action(&table->philo[i], "died");
-				table->monitor->philo_dead = true;
-			}
-			pthread_mutex_unlock(&table->meal_mutex);
-			return (true);
-		}
-		pthread_mutex_unlock(&table->meal_mutex);
-		i++;
+		dead = true;
+		pthread_mutex_lock(&philo->table->print_mutex);
+		printf("%ld %d %s\n", timestamp(philo->table), philo->id, "died");
+		pthread_mutex_unlock(&philo->table->print_mutex);
+	}
+	pthread_mutex_unlock(&philo->meal_mutex);
+	if (dead)
+	{
+		pthread_mutex_lock(&table->death_mutex);
+		table->philo_dead = true;
+		pthread_mutex_unlock(&table->death_mutex);
+		return (true);
 	}
 	return (false);
 }
 
-static bool	check_all_full(t_table *table)
+static void	is_full(t_table *table, t_philo *philo, long *philo_full)
 {
-	int		i;
-	long	full_count;
-
 	if (table->data->meals_to_eat <= 0)
-		return (false);
-	i = 0;
-	full_count = 0;
-	while (i < table->data->philo_count)
+		return ;
+	pthread_mutex_lock(&philo->meal_mutex);
+	if (philo->meals_eaten == table->data->meals_to_eat)
+		(*philo_full)++;
+	pthread_mutex_unlock(&philo->meal_mutex);
+}
+
+static bool	all_full(t_table *table, int philo_full)
+{
+	if (philo_full == table->data->philo_count)
 	{
-		pthread_mutex_lock(&table->meal_mutex);
-		if (table->philo[i].meals_eaten >= table->data->meals_to_eat)
-			full_count++;
-		pthread_mutex_unlock(&table->meal_mutex);
-		i++;
-	}
-	if (full_count == table->data->philo_count)
+		pthread_mutex_lock(&table->is_full_mutex);
+		table->all_full = true;
+		pthread_mutex_unlock(&table->is_full_mutex);
 		return (true);
-	else
-		return (false);
+	}
+	return (false);
 }
 
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
-
+	
 	philo = (t_philo *)arg;
 	if (philo->data->philo_count == 1)
 	{
@@ -81,12 +82,13 @@ void	*philo_routine(void *arg)
 	}
 	if (philo->id % 2 == 0)
 		usleep(200);
-	while (!philo->table->monitor->philo_dead && \
-		philo->table->monitor->philo_full < philo->data->philo_count)
+	while (!check_death_flag(philo->table))
 	{
 		take_forks(philo);
 		eat(philo);
 		release_forks(philo);
+		if (is_philo_finished(philo))
+			break ;
 		rest(philo);
 		think(philo);
 	}
@@ -96,17 +98,23 @@ void	*philo_routine(void *arg)
 void	*monitor_routine(void *arg)
 {
 	t_table	*table;
+	int		i;
+	long	philo_full;
 
 	table = (t_table *)arg;
 	while (1)
 	{
-		if (check_death(table))
-			break ;
-		if (check_all_full(table))
+		philo_full = 0;
+		i = 0;
+		while (i < table->data->philo_count)
 		{
-			table->monitor->philo_full = table->data->philo_count;
-			break ;
+			if (is_dead(table, &table->philo[i]))
+				return (NULL);
+			is_full(table, &table->philo[i], &philo_full);
+			i++;
 		}
+		if (all_full(table, philo_full))
+			return (NULL);
 		usleep(1000);
 	}
 	return (NULL);

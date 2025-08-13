@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:15:55 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/12 16:40:45 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:20:13 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	smart_sleep(long time_in_ms, t_table *table)
 	long	start;
 
 	start = get_time_in_ms();
-	while (!table->monitor->philo_dead)
+	while (!check_death_flag(table))
 	{
 		if (get_time_in_ms() - start >= time_in_ms)
 			break ;
