@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:45:12 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/14 13:31:58 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/14 14:31:47 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,33 @@ void	take_forks(t_philo *philo)
 	take_one_fork(philo, first_fork);
 	take_one_fork(philo, second_fork);
 }
+
+// void take_forks(t_philo *philo)
+// { 
+// 	if (philo->id % 2 == 0)
+// 	{
+// 		pthread_mutex_lock(philo->right_fork);
+// 		pthread_mutex_lock(&philo->table->print_mutex);
+// 		printf("%ld %d %s\n", timestamp(philo->table), philo->id,
+// 			"has taken a fork");
+// 		pthread_mutex_unlock(&philo->table->print_mutex);
+// 		pthread_mutex_lock(philo->left_fork);
+// 		printf("%ld %d %s\n", timestamp(philo->table), philo->id,
+// 			"has taken a fork");
+// 		pthread_mutex_unlock(&philo->table->print_mutex);
+// 	}
+// 	else
+// 	{
+// 		pthread_mutex_lock(philo->left_fork);
+// 		printf("%ld %d %s\n", timestamp(philo->table), philo->id,
+// 			"has taken a fork");
+// 		pthread_mutex_unlock(&philo->table->print_mutex);
+// 		pthread_mutex_lock(philo->right_fork);
+// 		printf("%ld %d %s\n", timestamp(philo->table), philo->id,
+// 			"has taken a fork");
+// 		pthread_mutex_unlock(&philo->table->print_mutex);
+// 	}
+// }
 
 void	release_forks(t_philo *philo)
 {

@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:11:34 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 21:20:36 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/14 14:32:13 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->meal_mutex);
-	philo->meals_eaten++;
-	philo->last_meal = get_time_in_ms();
-	pthread_mutex_unlock(&philo->meal_mutex);
 	if (!check_death_flag(philo->table))
 	{
 		pthread_mutex_lock(&philo->table->print_mutex);
 		printf("%ld %d %s\n", timestamp(philo->table), philo->id, "is eating");
 		pthread_mutex_unlock(&philo->table->print_mutex);
 	}
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal = get_time_in_ms();
+	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	smart_sleep(philo->data->time_to_eat, philo->table);
 }
 
@@ -47,5 +47,6 @@ void	think(t_philo *philo)
 		printf("%ld %d %s\n", timestamp(philo->table), philo->id,
 			"is thinking");
 		pthread_mutex_unlock(&philo->table->print_mutex);
+		usleep(500);
 	}
 }
