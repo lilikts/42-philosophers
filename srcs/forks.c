@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:45:12 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 17:48:24 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:31:58 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	take_one_fork(t_philo *philo, pthread_mutex_t *fork)
 	{
 		pthread_mutex_lock(&philo->table->print_mutex);
 		printf("%ld %d %s\n", timestamp(philo->table), philo->id,
-			"has taken fork");
+			"has taken a fork");
 		pthread_mutex_unlock(&philo->table->print_mutex);
 	}
 }

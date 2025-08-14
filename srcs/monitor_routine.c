@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:18:37 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 17:23:25 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:41:39 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static bool	is_dead(t_table *table, t_philo *philo)
 	if (now - philo->last_meal >= table->data->time_to_die)
 	{
 		dead = true;
+		usleep(200);
 		pthread_mutex_lock(&philo->table->print_mutex);
 		printf("%ld %d %s\n", timestamp(philo->table), philo->id, "died");
 		pthread_mutex_unlock(&philo->table->print_mutex);
@@ -80,7 +81,7 @@ void	*monitor_routine(void *arg)
 		}
 		if (all_full(table, philo_full))
 			return (NULL);
-		usleep(1000);
+		usleep(500);
 	}
 	return (NULL);
 }

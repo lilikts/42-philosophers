@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:51:45 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 18:01:18 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/13 21:13:26 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,5 @@ long	timestamp(t_table *table);
 // cleanup
 void	cleanup(t_data *data, t_table *table);
 void	handle_error(const char *msg, t_data *data, t_table *table);
-
 
 #endif
