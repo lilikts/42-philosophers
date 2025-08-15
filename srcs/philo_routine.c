@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:14:48 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/14 15:25:47 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/14 22:18:18 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	is_philo_finished(t_philo *philo)
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
-
+	
 	philo = (t_philo *)arg;
 	if (philo->data->philo_count == 1)
 	{

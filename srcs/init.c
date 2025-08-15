@@ -6,7 +6,7 @@
 /*   By: lkloters <lkloters@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:40 by lkloters          #+#    #+#             */
-/*   Updated: 2025/08/13 12:58:56 by lkloters         ###   ########.fr       */
+/*   Updated: 2025/08/15 10:52:35 by lkloters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	philo_init(t_table *table, t_philo *philo)
 		philo[i].table = table;
 		philo[i].data = table->data;
 		philo[i].status = table->status;
-		if (pthread_mutex_init(&philo->meal_mutex, NULL) != 0)
+		if (pthread_mutex_init(&philo[i].meal_mutex, NULL) != 0)
 			return (1);
 		table->status->meal_status++;
 		i++;
